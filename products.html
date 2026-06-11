@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products — MAICHICO Pharmacy Ltd</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --sky:#0EA5E9; --sky-deep:#0369A1; --sky-light:#BAE6FD;
+      --sky-pale:#E0F4FF; --white:#FFFFFF; --off-white:#F0F9FF;
+      --navy:#0C2340; --gold:#F5C518; --text:#1E293B; --muted:#64748B;
+      --glass:rgba(255,255,255,0.12); --glass-b:rgba(255,255,255,0.25);
+      --shadow:0 8px 32px rgba(14,165,233,0.18);
+      --shadow-lg:0 20px 60px rgba(3,105,161,0.22);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--off-white);color:var(--text);overflow-x:hidden}
+    img{max-width:100%;display:block} a{text-decoration:none;color:inherit}
+
+    /* HEADER */
+    header{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:80px;background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(14,165,233,0.15);box-shadow:0 2px 20px rgba(14,165,233,0.10);transition:box-shadow .3s}
+    .logo{display:flex;align-items:center;gap:14px;flex-shrink:0}
+    .logo img{height:58px;width:58px;object-fit:cover;border-radius:50%;border:2px solid var(--sky);box-shadow:0 0 0 4px var(--sky-light)}
+    .logo-text strong{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--navy);display:block}
+    .logo-text span{font-size:.72rem;color:var(--sky-deep);font-weight:500;letter-spacing:.08em;text-transform:uppercase}
+    nav.desktop{display:flex;align-items:center;gap:36px}
+    nav.desktop a{font-weight:500;font-size:.92rem;color:var(--navy);letter-spacing:.03em;position:relative;padding-bottom:4px}
+    nav.desktop a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--sky);transition:width .3s;border-radius:2px}
+    nav.desktop a:hover::after,nav.desktop a.active::after{width:100%}
+    nav.desktop a:hover,nav.desktop a.active{color:var(--sky)}
+    .nav-cta{background:var(--sky);color:var(--white)!important;padding:10px 24px;border-radius:50px;font-weight:600!important;box-shadow:0 4px 14px rgba(14,165,233,.35);transition:all .25s!important}
+    .nav-cta::after{display:none!important}
+    .nav-cta:hover{background:var(--sky-deep)!important;transform:translateY(-2px)}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border-radius:8px;border:none;background:transparent}
+    .hamburger span{width:24px;height:2.5px;background:var(--navy);border-radius:2px;transition:all .3s;display:block}
+    .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+    .mobile-menu{position:fixed;top:80px;left:0;right:0;background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);z-index:999;padding:0 32px;max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s;border-bottom:1px solid var(--sky-light)}
+    .mobile-menu.open{max-height:400px;padding:20px 32px 30px}
+    .mobile-menu a{display:block;font-size:1.05rem;font-weight:500;color:var(--navy);padding:14px 0;border-bottom:1px solid var(--sky-pale);transition:color .2s,padding-left .2s}
+    .mobile-menu a:last-child{border:none}
+    .mobile-menu a:hover{color:var(--sky);padding-left:6px}
+
+    /* HERO */
+    .hero{margin-top:80px;position:relative;height:70vh;min-height:480px;display:flex;align-items:center;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background-image:url('4.jpeg');background-size:cover;background-position:center 30%;transform:scale(1.06);animation:zoomOut 14s ease forwards}
+    @keyframes zoomOut{from{transform:scale(1.06)}to{transform:scale(1.00)}}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(120deg,rgba(12,35,64,.88) 0%,rgba(3,105,161,.65) 55%,rgba(14,165,233,.30) 100%)}
+    .hero-content{position:relative;z-index:2;padding:0 80px;max-width:700px;animation:fadeUp .9s ease both}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--glass-b);color:var(--sky-light);font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:7px 16px;border-radius:50px;backdrop-filter:blur(8px);margin-bottom:22px}
+    .hero-badge::before{content:'';width:7px;height:7px;background:var(--sky-light);border-radius:50%;animation:pulse 1.8s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:900;color:var(--white);line-height:1.1;margin-bottom:16px;text-shadow:0 2px 20px rgba(0,0,0,.3)}
+    .hero h1 em{font-style:normal;color:var(--sky-light)}
+    .hero-motto{font-size:.75rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-top:10px}
+    .breadcrumb{display:flex;align-items:center;gap:8px;margin-top:28px;font-size:.82rem;color:rgba(255,255,255,.7)}
+    .breadcrumb a{color:var(--sky-light)}
+    .breadcrumb a:hover{color:var(--white)}
+    .breadcrumb .sep{opacity:.5}
+
+    /* FILTER BAR */
+    .filter-bar{background:var(--white);padding:28px 80px;border-bottom:1px solid var(--sky-light);display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:80px;z-index:100;box-shadow:0 4px 20px rgba(14,165,233,.08)}
+    .filter-label{font-size:.78rem;font-weight:700;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-right:4px}
+    .filter-btn{padding:8px 20px;border-radius:50px;border:1.5px solid var(--sky-light);background:transparent;color:var(--navy);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .22s;font-family:'DM Sans',sans-serif}
+    .filter-btn:hover{background:var(--sky-pale);border-color:var(--sky)}
+    .filter-btn.active{background:var(--sky);color:var(--white);border-color:var(--sky);box-shadow:0 4px 14px rgba(14,165,233,.3)}
+
+    /* SECTIONS */
+    .cat-section{padding:80px 80px}
+    .cat-section:nth-child(odd){background:var(--white)}
+    .cat-section:nth-child(even){background:var(--sky-pale)}
+    .cat-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:44px;flex-wrap:wrap;gap:16px}
+    .section-tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.20em;text-transform:uppercase;color:var(--sky);margin-bottom:12px}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:700;color:var(--navy);margin-bottom:14px;line-height:1.2}
+    .section-subtitle{color:var(--muted);font-size:1rem;line-height:1.7;max-width:580px}
+    .cat-badge{display:inline-flex;align-items:center;gap:10px;background:var(--sky);color:var(--white);font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:8px 18px;border-radius:50px;white-space:nowrap;margin-top:10px}
+
+    /* PRODUCT GRID */
+    .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:28px}
+    .product-card{background:var(--white);border-radius:20px;overflow:hidden;border:1.5px solid var(--sky-light);transition:transform .3s,box-shadow .3s;position:relative}
+    .product-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
+    .card-badge{position:absolute;top:14px;right:14px;background:var(--sky);color:var(--white);font-size:.68rem;font-weight:700;letter-spacing:.08em;padding:4px 10px;border-radius:50px;z-index:2}
+    .card-badge.gold{background:var(--gold);color:var(--navy)}
+    .card-img{height:220px;overflow:hidden;background:var(--sky-pale);display:flex;align-items:center;justify-content:center;position:relative;flex-direction:column;gap:10px}
+    .card-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .4s ease}
+    .product-card:hover .card-img img{transform:scale(1.07)}
+    .img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(12,35,64,.35) 0%,transparent 60%)}
+    .card-emoji{font-size:3.5rem;position:relative;z-index:1}
+    .card-label{font-size:.85rem;font-weight:600;color:var(--sky-deep);position:relative;z-index:1}
+    .card-body{padding:20px 22px 24px}
+    .card-body h3{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--navy);margin-bottom:6px;line-height:1.3}
+    .card-body p{font-size:.82rem;color:var(--muted);line-height:1.65}
+    .card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+    .card-tag{font-size:.72rem;font-weight:600;background:var(--sky-pale);color:var(--sky-deep);padding:4px 10px;border-radius:50px;border:1px solid var(--sky-light)}
+
+    /* CTA */
+    .cta-strip{background:linear-gradient(135deg,var(--navy) 0%,var(--sky-deep) 100%);padding:70px 80px;text-align:center}
+    .cta-strip h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);color:var(--white);margin-bottom:16px}
+    .cta-strip p{color:rgba(255,255,255,.75);max-width:560px;margin:0 auto 36px;font-size:.98rem;line-height:1.7}
+    .btn-primary{display:inline-flex;align-items:center;gap:8px;background:var(--sky);color:var(--white);font-weight:600;font-size:.95rem;padding:15px 34px;border-radius:50px;box-shadow:0 6px 24px rgba(14,165,233,.45);transition:all .25s}
+    .btn-primary:hover{background:white;color:var(--sky-deep);transform:translateY(-2px)}
+
+    /* FOOTER */
+    footer{background:var(--navy);color:var(--white);padding:50px 80px 30px}
+    .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.1)}
+    .footer-brand .logo-text strong{color:var(--white);font-size:1.3rem}
+    .footer-brand .logo-text span{color:var(--sky-light)}
+    .footer-brand p{margin-top:14px;font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.7}
+    .footer-motto{display:inline-block;margin-top:16px;font-size:.72rem;font-weight:700;letter-spacing:.18em;color:var(--gold);background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.3);padding:5px 12px;border-radius:4px}
+    .footer-col h5{font-weight:700;font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:var(--sky-light);margin-bottom:18px}
+    .footer-col a{display:block;font-size:.85rem;color:rgba(255,255,255,.65);margin-bottom:10px;transition:color .2s,padding-left .2s}
+    .footer-col a:hover{color:var(--sky-light);padding-left:4px}
+    .footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:24px;font-size:.78rem;color:rgba(255,255,255,.4)}
+
+    /* RESPONSIVE */
+    @media(max-width:1024px){
+      header{padding:0 24px;height:70px}
+      .logo img{height:48px;width:48px}
+      .mobile-menu{top:70px}
+      .hero{margin-top:70px}
+      .cat-section{padding:60px 40px}
+      .filter-bar{padding:22px 40px;top:70px}
+      .footer-top{grid-template-columns:1fr 1fr;gap:40px}
+      .cta-strip{padding:60px 40px}
+    }
+    @media(max-width:768px){
+      nav.desktop{display:none}
+      .hamburger{display:flex}
+      header{padding:0 16px;height:64px}
+      .logo img{height:42px;width:42px}
+      .logo-text strong{font-size:1.05rem}
+      .mobile-menu{top:64px}
+      .hero{margin-top:64px;height:auto;min-height:60vh;padding:50px 0 60px}
+      .hero-content{padding:0 18px;width:100%}
+      .hero h1{font-size:clamp(1.8rem,7vw,2.4rem)}
+      .breadcrumb{display:none}
+      .cat-section{padding:40px 16px}
+      /* Filter bar: wrap nicely, no horizontal scroll */
+      .filter-bar{
+        padding:14px 16px;
+        top:64px;
+        gap:8px;
+        flex-wrap:wrap;
+        overflow-x:hidden;
+      }
+      .filter-label{width:100%;margin-bottom:2px}
+      .filter-btn{font-size:.78rem;padding:7px 14px;flex-shrink:0}
+      /* Cards: 2 columns on tablets / large phones */
+      .product-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+      .card-img{height:160px}
+      .card-body{padding:14px 14px 18px}
+      .card-body h3{font-size:.95rem}
+      .card-body p{font-size:.78rem}
+      .cat-header{flex-direction:column;margin-bottom:28px}
+      .section-title{font-size:clamp(1.5rem,5vw,2rem)}
+      .cta-strip{padding:40px 16px}
+      .footer-top{grid-template-columns:1fr;gap:28px}
+      .footer-bottom{flex-direction:column;gap:6px;text-align:center}
+      footer{padding:40px 16px 24px}
+    }
+    /* Small phones: single column, fully fitted */
+    @media(max-width:480px){
+      header{padding:0 14px;height:60px}
+      .logo img{height:38px;width:38px}
+      .logo-text strong{font-size:.95rem}
+      .logo-text span{font-size:.65rem}
+      .mobile-menu{top:60px}
+      .hero{margin-top:60px;min-height:55vh;padding:40px 0 50px}
+      .hero-content{padding:0 16px}
+      .hero h1{font-size:clamp(1.65rem,8vw,2.1rem)}
+      .filter-bar{top:60px;padding:12px 14px;gap:6px}
+      .filter-btn{font-size:.74rem;padding:6px 12px}
+      /* Single column on small phones */
+      .product-grid{grid-template-columns:1fr;gap:16px}
+      .card-img{height:200px}
+      .card-body{padding:16px 16px 20px}
+      .card-body h3{font-size:1rem}
+      .card-body p{font-size:.82rem}
+      .cat-section{padding:32px 14px}
+      .cta-strip{padding:36px 14px}
+      .cat-badge{font-size:.72rem;padding:6px 14px}
+    }
+    /* Extra small phones (e.g. iPhone SE) */
+    @media(max-width:360px){
+      .logo-text strong{font-size:.88rem}
+      .hero h1{font-size:1.55rem}
+      .product-grid{gap:12px}
+      .card-img{height:180px}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header id="header">
+    <div class="logo">
+      <img src="1.jpeg" alt="MAICHICO Logo"/>
+      <div class="logo-text">
+        <strong>MAICHICO</strong>
+        <span>Pharmacy Ltd.</span>
+      </div>
+    </div>
+    <nav class="desktop">
+      <a href="index.html">Home</a>
+      <a href="products.html" class="active">Products</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="products.html" class="nav-cta">View Store →</a>
+    </nav>
+    <button class="hamburger" id="burger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html"         onclick="closeMenu()">🏠 Home</a>
+    <a href="products.html"      onclick="closeMenu()">💊 Products</a>
+    <a href="index.html#why"     onclick="closeMenu()">ℹ️ About Us</a>
+    <a href="index.html#contact" onclick="closeMenu()">📞 Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Full Product Catalogue</div>
+      <h1>Our <em>Pharmacy</em><br/>Products</h1>
+      <div class="hero-motto">✦ GOD IS GREAT ✦</div>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="sep">›</span>
+        <span>Products</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-btn active" onclick="filterSection('all',this)">All Products</button>
+    <button class="filter-btn" onclick="filterSection('retail',this)">💊 Retail Products</button>
+    <button class="filter-btn" onclick="filterSection('wholesale',this)">📦 Wholesale Products</button>
+  </div>
+
+  <!-- SECTION 1: RETAIL -->
+  <section class="cat-section" id="retail">
+    <div class="cat-header">
+      <div>
+        <span class="section-tag">Category 01</span>
+        <h2 class="section-title">Retail Products</h2>
+        <p class="section-subtitle">Over-the-counter and prescribed pharmaceutical products for individual and household use.</p>
+      </div>
+      <span class="cat-badge">💊 Retail Range</span>
+    </div>
+    <div class="product-grid">
+
+      <div class="product-card">
+        <div class="card-badge">Best Seller</div>
+        <div class="card-img">
+          <img src="9.jpeg" alt="Tablets"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <h3>Syrup</h3>
+          <p>Branded and generic oral medications from NAFDAC-certified manufacturers across Nigeria.</p>
+          <div class="card-tags"><span class="card-tag">Oral</span><span class="card-tag">Branded</span><span class="card-tag">Generic</span></div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="card-badge gold">In Stock</div>
+        <div class="card-img">
+          <img src="8.jpeg" alt="Syrups"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <h3>Syrups & Suspensions</h3>
+          <p>Adult liquid formulations covering a wide range of therapeutic categories.</p>
+          <div class="card-tags"><span class="card-tag">Liquid</span><span class="card-tag">Adult</span></div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="card-img">
+          <img src="10.jpeg" alt="Vitamins"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <h3> Tablets</h3>
+          <p>High-quality analgesic.</p>
+          <div ><span class="card-tag">  Quality</span><span class="card-tag">OTC</span></div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="card-badge">Popular</div>
+        <div class="card-img">
+          <img src="6.jpeg" alt="Pain Relief"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <h3>Analgesics & Pain Relief</h3>
+          <p>Fast-acting pain relief medications including NSAIDs, acetaminophen-based, and combination products.</p>
+          <div class="card-tags"><span class="card-tag">Paediatric</span><span class="card-tag">NSAIDs</span></div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="card-img">
+          <img src="7.jpeg" alt="Antibiotics"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <h3>Multi-vitamin</h3>
+          <p>OTC medication </p>
+          <div class="card-tags"><span class="card-tag">Effective</span><span class="card-tag">Multivitamin</span></div>
+        </div>
+      </div>
+
+      
+
+       <div class="product-card">
+        <div class="card-img">
+          <img src="data:image/jpeg;base64,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" alt="Antibiotics"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <h3>Antimalaria </h3>
+          <p>OTC medication </p>
+          <div class="card-tags"><span class="card-tag">Effective</span><span class="card-tag">Quality</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION 2: WHOLESALE -->
+  <section class="cat-section" id="wholesale">
+    <div class="cat-header">
+      <div>
+        <span class="section-tag">Category 02</span>
+        <h2 class="section-title">Wholesale Products</h2>
+        <p class="section-subtitle">Bulk pharmaceutical supply for pharmacies, clinics, hospitals and healthcare facilities — competitive pricing guaranteed.</p>
+      </div>
+      <span class="cat-badge">📦 Wholesale Range</span>
+    </div>
+    <div class="product-grid">
+
+      <div class="product-card">
+        <div class="card-badge">Bulk Pricing</div>
+        <div class="card-img">
+          <img src="11.jpeg" alt="Wholesale tablets" onerror="this.parentElement.innerHTML='<span class=&quot;card-emoji&quot;>💊</span><span class=&quot;card-label&quot;>Tablets — Bulk</span>'"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <h3>Infusion — Bulk Supply</h3>
+          <p>High-volume tablet supply with bulk discount pricing. Multiple brands and generics available.</p>
+          <div class="card-tags"><span class="card-tag">Bulk</span><span class="card-tag">Discounted</span></div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="card-img">
+          <img src="12.jpeg" alt="Wholesale syrups" onerror="this.parentElement.innerHTML='<span class=&quot;card-emoji&quot;>🧴</span><span class=&quot;card-label&quot;>Syrups — Bulk</span>'"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <h3>Tablets — Wholesale</h3>
+          <p> Analgesics,antifungals and multi-category syrups in bulk wholesale quantities.</p>
+          <div class="card-tags"><span class="card-tag">Bulk</span><span class="card-tag">Wholesale</span></div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="card-badge gold">Partner Rate</div>
+        <div class="card-img">
+          <img src="13.jpeg" alt="Wholesale injectables" onerror="this.parentElement.innerHTML='<span class=&quot;card-emoji&quot;>💉</span><span class=&quot;card-label&quot;>Injectables — Bulk</span>'"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <h3>Injectables — Wholesale</h3>
+          <p>Hospital-grade injectables at partner pricing for clinics and medical facilities.</p>
+          <div class="card-tags"><span class="card-tag">Hospital</span><span class="card-tag">Partner Price</span></div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="card-img">
+          <img src="14.jpeg" alt="Consumables wholesale" onerror="this.parentElement.innerHTML='<span class=&quot;card-emoji&quot;>🩺</span><span class=&quot;card-label&quot;>Consumables</span>'"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <h3>Mixed Bulk orders — Wholesale</h3>
+          <p>Gloves, syringes, bandages, catheters and full range of medical consumables in bulk.</p>
+          <div class="card-tags"><span class="card-tag">Consumables</span><span class="card-tag">Bulk</span></div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="card-img">
+          <img src="15.jpeg" alt="Vitamins wholesale" onerror="this.parentElement.innerHTML='<span class=&quot;card-emoji&quot;>🌿</span><span class=&quot;card-label&quot;>Vitamins — Bulk</span>'"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <h3>Mixed Bulk orders — Wholesale</h3>
+          <p>Multi-vitamin, iron, calcium and specialised nutritional supplements at wholesale rates.</p>
+          <div class="card-tags"><span class="card-tag">Vitamins</span><span class="card-tag">Wholesale</span></div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="card-img">
+          <img src="16.jpeg" alt="Mixed wholesale" onerror="this.parentElement.innerHTML='<span class=&quot;card-emoji&quot;>📦</span><span class=&quot;card-label&quot;>Mixed Bulk Orders</span>'"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <h3>Mixed Bulk Orders</h3>
+          <p>Custom bulk orders across categories — ideal for pharmacies restocking their full range.</p>
+          <div class="card-tags"><span class="card-tag">Custom</span><span class="card-tag">Multi-Category</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA STRIP -->
+  <div class="cta-strip">
+    <h2>Need a Bulk or Custom Order?</h2>
+    <p>We supply wholesale to pharmacies, hospitals and clinics across Nigeria. Get in touch to discuss pricing, minimum quantities and delivery.</p>
+    <a href="contact.html" class="btn-primary">Contact Us Today →</a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          <img src="1.jpeg" alt="Logo" style="height:50px;width:50px;border-color:var(--sky-light)"/>
+          <div class="logo-text"><strong>MAICHICO</strong><span>Pharmacy Ltd.</span></div>
+        </div>
+        <p>Your trusted pharmaceutical partner for wholesale and retail distribution across Nigeria.</p>
+        <div class="footer-motto">✦ MOTTO: GOD IS GREAT ✦</div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h5>Categories</h5>
+        <a href="products.htmll">Retail Products</a>
+        <a href="products.html">Wholesale Products</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 MAICHICO Pharmacy Ltd. All rights reserved.</span>
+      <span>⚕️ Your Health, Our Priority</span>
+    </div>
+  </footer>
+
+  <script>
+    const burger = document.getElementById('burger');
+    const menu   = document.getElementById('mobileMenu');
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('open');
+      menu.classList.toggle('open');
+    });
+    function closeMenu() {
+      burger.classList.remove('open');
+      menu.classList.remove('open');
+    }
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('header').style.boxShadow =
+        window.scrollY > 30 ? '0 4px 30px rgba(14,165,233,.18)' : '0 2px 20px rgba(14,165,233,.10)';
+    });
+
+    function filterSection(id, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      ['retail','wholesale'].forEach(sec => {
+        const el = document.getElementById(sec);
+        el.style.display = (id === 'all' || id === sec) ? 'block' : 'none';
+      });
+      if (id !== 'all') {
+        setTimeout(() => {
+          const target = document.getElementById(id);
+          if (target) {
+            const top = target.getBoundingClientRect().top + window.scrollY - 150;
+            window.scrollTo({ top, behavior:'smooth' });
+          }
+        }, 80);
+      }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.product-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(28px)';
+      el.style.transition = 'opacity .6s ease, transform .6s ease';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>

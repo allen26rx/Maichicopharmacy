@@ -1,0 +1,20 @@
+.grp1 img{
+  height: 100px;
+  width: 70px;
+  max-width: 100%;
+}
+
+.grp2 img{
+  height: 100px;
+  width: 70px;
+  max-width: 100%;
+}
+.grp{
+  width: 100%;
+  max-width: 1280px;
+  height: auto;
+  min-height: 160px;
+  border: 1px solid black;
+  background-color: aqua;
+  box-sizing: border-box;
+}

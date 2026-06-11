@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MAICHICO Pharmacy Ltd</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    /* ─── CSS Variables ─────────────────────────────── */
+    :root {
+      --sky:       #0EA5E9;
+      --sky-deep:  #0369A1;
+      --sky-light: #BAE6FD;
+      --sky-pale:  #E0F4FF;
+      --white:     #FFFFFF;
+      --off-white: #F0F9FF;
+      --navy:      #0C2340;
+      --gold:      #F5C518;
+      --text:      #1E293B;
+      --muted:     #64748B;
+      --glass:     rgba(255,255,255,0.12);
+      --glass-b:   rgba(255,255,255,0.25);
+      --shadow:    0 8px 32px rgba(14,165,233,0.18);
+      --shadow-lg: 0 20px 60px rgba(3,105,161,0.22);
+    }
+
+    /* ─── Reset ─────────────────────────────────────── */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+    img { max-width:100%; display:block; }
+    a   { text-decoration:none; color:inherit; }
+
+    /* ─── HEADER ─────────────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 80px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(14,165,233,0.15);
+      box-shadow: 0 2px 20px rgba(14,165,233,0.10);
+      transition: box-shadow .3s;
+    }
+
+    /* Logo */
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+    .logo img {
+      height: 58px;
+      width:  58px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid var(--sky);
+      box-shadow: 0 0 0 4px var(--sky-light);
+    }
+    .logo-text { line-height: 1.15; }
+    .logo-text strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      color: var(--navy);
+      display: block;
+    }
+    .logo-text span {
+      font-size: .72rem;
+      color: var(--sky-deep);
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    /* Desktop nav */
+    nav.desktop {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+    nav.desktop a {
+      font-weight: 500;
+      font-size: .92rem;
+      color: var(--navy);
+      letter-spacing: .03em;
+      position: relative;
+      padding-bottom: 4px;
+    }
+    nav.desktop a::after {
+      content:'';
+      position:absolute;
+      bottom:0; left:0;
+      width:0; height:2px;
+      background: var(--sky);
+      transition: width .3s;
+      border-radius: 2px;
+    }
+    nav.desktop a:hover::after { width:100%; }
+    nav.desktop a:hover { color: var(--sky); }
+
+    .nav-cta {
+      background: var(--sky);
+      color: var(--white) !important;
+      padding: 10px 24px;
+      border-radius: 50px;
+      font-weight: 600 !important;
+      transition: background .25s, transform .2s, box-shadow .25s !important;
+      box-shadow: 0 4px 14px rgba(14,165,233,.35);
+    }
+    .nav-cta::after { display:none !important; }
+    .nav-cta:hover {
+      background: var(--sky-deep) !important;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(14,165,233,.4) !important;
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+    }
+    .hamburger span {
+      width: 24px; height: 2.5px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: all .3s;
+      display: block;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.open span:nth-child(2) { opacity:0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+    /* Mobile drawer */
+    .mobile-menu {
+      position: fixed;
+      top: 80px; left:0; right:0;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(20px);
+      z-index: 999;
+      padding: 0 32px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease, padding .3s;
+      border-bottom: 1px solid var(--sky-light);
+    }
+    .mobile-menu.open {
+      max-height: 400px;
+      padding: 20px 32px 30px;
+    }
+    .mobile-menu a {
+      display: block;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--navy);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--sky-pale);
+      transition: color .2s, padding-left .2s;
+    }
+    .mobile-menu a:last-child { border:none; }
+    .mobile-menu a:hover { color: var(--sky); padding-left:6px; }
+
+    /* ─── HERO ───────────────────────────────────────── */
+    .hero {
+      margin-top: 80px;
+      position: relative;
+      height: 92vh;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('5.jpeg');
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.06);
+      animation: zoomOut 14s ease forwards;
+    }
+    @keyframes zoomOut {
+      from { transform:scale(1.06); }
+      to   { transform:scale(1.00); }
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        120deg,
+        rgba(12,35,64,0.82) 0%,
+        rgba(3,105,161,0.60) 55%,
+        rgba(14,165,233,0.25) 100%
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 80px;
+      max-width: 700px;
+      animation: fadeUp .9s ease both;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(30px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--glass);
+      border: 1px solid var(--glass-b);
+      color: var(--sky-light);
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      border-radius: 50px;
+      backdrop-filter: blur(8px);
+      margin-bottom: 26px;
+    }
+    .hero-badge::before {
+      content:'';
+      width:7px; height:7px;
+      background: var(--sky-light);
+      border-radius: 50%;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.5; transform:scale(1.4); }
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.08;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 20px rgba(0,0,0,.3);
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--sky-light);
+    }
+    .hero p {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.80);
+      line-height: 1.7;
+      margin-bottom: 38px;
+      max-width: 520px;
+    }
+    .hero-motto {
+      display: inline-block;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(245,197,24,.12);
+      border: 1px solid rgba(245,197,24,.35);
+      padding: 5px 14px;
+      border-radius: 4px;
+      margin-bottom: 28px;
+    }
+    .hero-buttons { display:flex; gap:16px; flex-wrap:wrap; }
+    .btn-primary {
+      background: var(--sky);
+      color: var(--white);
+      font-weight: 600;
+      font-size: .95rem;
+      padding: 15px 34px;
+      border-radius: 50px;
+      box-shadow: 0 6px 24px rgba(14,165,233,.45);
+      transition: all .25s;
+      display: inline-flex; align-items:center; gap:8px;
+    }
+    .btn-primary:hover {
+      background: var(--sky-deep);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(14,165,233,.5);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--white);
+      font-weight: 600;
+      font-size: .95rem;
+      padding: 14px 34px;
+      border-radius: 50px;
+      border: 2px solid rgba(255,255,255,.6);
+      transition: all .25s;
+      backdrop-filter: blur(6px);
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,.15);
+      border-color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    /* Hero scroll indicator */
+    .scroll-cue {
+      position: absolute;
+      bottom: 34px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,.6);
+      font-size: .72rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      animation: fadeUp .8s .6s ease both;
+    }
+    .scroll-cue .arrow {
+      width: 22px; height: 22px;
+      border-right: 2px solid rgba(255,255,255,.5);
+      border-bottom: 2px solid rgba(255,255,255,.5);
+      transform: rotate(45deg);
+      animation: bounce 1.6s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform:rotate(45deg) translateY(0); }
+      50%      { transform:rotate(45deg) translateY(6px); }
+    }
+
+    /* ─── STATS STRIP ────────────────────────────────── */
+    .stats {
+      background: linear-gradient(135deg, var(--sky-deep) 0%, var(--sky) 100%);
+      padding: 36px 80px;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    .stat-item {
+      text-align: center;
+      color: var(--white);
+    }
+    .stat-item .number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .stat-item .label {
+      font-size: .82rem;
+      opacity: .85;
+      margin-top: 4px;
+      letter-spacing: .05em;
+    }
+    .stat-divider {
+      width: 1px;
+      background: rgba(255,255,255,.25);
+      align-self: stretch;
+    }
+
+    /* ─── SECTION BASE ───────────────────────────────── */
+    section { padding: 90px 80px; }
+    .section-tag {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .20em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .section-subtitle {
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.7;
+      max-width: 580px;
+    }
+
+    /* ─── PRODUCT RANGE ──────────────────────────────── */
+    .product-range {
+      background: var(--white);
+    }
+    .product-range .inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 70px;
+      align-items: center;
+    }
+    .product-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    .pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--sky-pale);
+      border: 1px solid var(--sky-light);
+      color: var(--sky-deep);
+      font-weight: 600;
+      font-size: .88rem;
+      padding: 10px 20px;
+      border-radius: 50px;
+      transition: all .25s;
+      cursor: default;
+    }
+    .pill:hover {
+      background: var(--sky);
+      color: var(--white);
+      border-color: var(--sky);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(14,165,233,.3);
+    }
+    .pill .icon { font-size: 1.1rem; }
+
+    /* Product image grid */
+    .product-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 16px;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .pv-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--sky-pale);
+      min-height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 10px;
+      border: 1px solid var(--sky-light);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .pv-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .pv-card:first-child {
+      grid-column: 1 / -1;
+      min-height: 180px;
+      background: linear-gradient(135deg, var(--sky-pale) 0%, #ddf2ff 100%);
+    }
+    .pv-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset:0;
+      border-radius: 16px;
+    }
+    .pv-label {
+      position: absolute;
+      bottom: 12px; left: 14px;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(8px);
+      font-size: .76rem;
+      font-weight: 700;
+      color: var(--sky-deep);
+      padding: 5px 12px;
+      border-radius: 50px;
+      border: 1px solid var(--sky-light);
+    }
+    .pv-emoji { font-size: 2.8rem; }
+    .pv-text  { font-size: .85rem; font-weight:600; color: var(--sky-deep); }
+
+    /* ─── FEATURED PRODUCTS ──────────────────────────── */
+    .featured {
+      background: var(--sky-pale);
+    }
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 28px;
+      margin-top: 50px;
+    }
+    .feat-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--sky-light);
+      transition: transform .3s, box-shadow .3s;
+      position: relative;
+    }
+    .feat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+    .feat-card .badge {
+      position: absolute;
+      top: 14px; right: 14px;
+      background: var(--sky);
+      color: var(--white);
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      padding: 4px 10px;
+      border-radius: 50px;
+    }
+    .feat-img {
+      height: 190px;
+      background: var(--sky-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .feat-img img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      position:absolute;
+      inset:0;
+    }
+    .feat-body {
+      padding: 20px 22px 24px;
+    }
+    .feat-body h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .feat-body p {
+      font-size: .83rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── WHY CHOOSE US ──────────────────────────────── */
+    .why {
+      background: var(--white);
+    }
+    .why .inner {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .why-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .why-card {
+      background: var(--sky-pale);
+      border: 1px solid var(--sky-light);
+      border-radius: 18px;
+      padding: 26px 22px;
+      transition: all .3s;
+    }
+    .why-card:hover {
+      background: var(--sky);
+      border-color: var(--sky);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+    }
+    .why-card:hover .why-icon { background: rgba(255,255,255,.2); color: var(--white); }
+    .why-card:hover h4, .why-card:hover p { color: var(--white); }
+    .why-card:hover p { opacity:.85; }
+    .why-icon {
+      width: 48px; height: 48px;
+      background: rgba(14,165,233,.12);
+      color: var(--sky);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 14px;
+      transition: all .3s;
+    }
+    .why-card h4 {
+      font-weight: 700;
+      font-size: .95rem;
+      color: var(--navy);
+      margin-bottom: 7px;
+      transition: color .3s;
+    }
+    .why-card p {
+      font-size: .82rem;
+      color: var(--muted);
+      line-height: 1.6;
+      transition: color .3s;
+    }
+    .why-card.wide { grid-column: 1 / -1; }
+
+    .why-visual {
+      position: relative;
+    }
+    .why-img-wrap {
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .why-img-wrap img {
+      width:100%;
+      display:block;
+      object-fit:cover;
+      height: 420px;
+    }
+    .why-img-wrap .placeholder-img {
+      height: 420px;
+      background: linear-gradient(160deg, var(--sky-pale) 0%, var(--sky-light) 100%);
+      display:flex; align-items:center; justify-content:center;
+      font-size:5rem;
+    }
+    .why-badge {
+      position: absolute;
+      bottom: -24px; left: -24px;
+      background: var(--sky-deep);
+      color: var(--white);
+      border-radius: 18px;
+      padding: 22px 26px;
+      box-shadow: var(--shadow-lg);
+    }
+    .why-badge .big { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; display:block; }
+    .why-badge .small { font-size:.78rem; opacity:.8; letter-spacing:.05em; }
+
+    /* ─── DISTRIBUTORS ───────────────────────────────── */
+    .distributors {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--sky-deep) 100%);
+      padding: 70px 80px;
+      text-align: center;
+    }
+    .distributors .section-tag { color: var(--sky-light); }
+    .distributors .section-title { color: var(--white); }
+    .distributors .section-subtitle { color: rgba(255,255,255,.7); margin: 0 auto 48px; }
+    .brand-logos {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .brand-pill {
+      background: var(--glass);
+      border: 1px solid var(--glass-b);
+      color: var(--white);
+      font-weight: 700;
+      font-size: .95rem;
+      letter-spacing: .05em;
+      padding: 14px 30px;
+      border-radius: 50px;
+      backdrop-filter: blur(8px);
+      transition: all .25s;
+    }
+    .brand-pill:hover {
+      background: rgba(255,255,255,.2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.2);
+    }
+
+    /* ─── CONTACT STRIP ──────────────────────────────── */
+    .contact-strip {
+      background: var(--sky-pale);
+      padding: 60px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 40px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+    }
+    .c-icon {
+      width: 52px; height: 52px;
+      background: var(--sky);
+      color: var(--white);
+      border-radius: 14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size: 1.3rem;
+      flex-shrink:0;
+      box-shadow: 0 4px 14px rgba(14,165,233,.35);
+    }
+    .c-text strong {
+      display: block;
+      font-weight: 700;
+      color: var(--navy);
+      font-size: .9rem;
+      margin-bottom: 4px;
+    }
+    .c-text span { font-size: .85rem; color: var(--muted); line-height:1.5; }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      color: var(--white);
+      padding: 50px 80px 30px;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 60px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .footer-brand .logo-text strong { color: var(--white); font-size:1.3rem; }
+    .footer-brand .logo-text span   { color: var(--sky-light); }
+    .footer-brand p {
+      margin-top: 14px;
+      font-size: .85rem;
+      color: rgba(255,255,255,.6);
+      line-height: 1.7;
+    }
+    .footer-motto {
+      display: inline-block;
+      margin-top:16px;
+      font-size:.72rem;
+      font-weight:700;
+      letter-spacing:.18em;
+      color: var(--gold);
+      background: rgba(245,197,24,.1);
+      border:1px solid rgba(245,197,24,.3);
+      padding: 5px 12px;
+      border-radius:4px;
+    }
+    .footer-col h5 {
+      font-weight:700;
+      font-size:.85rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color: var(--sky-light);
+      margin-bottom:18px;
+    }
+    .footer-col a {
+      display:block;
+      font-size:.85rem;
+      color: rgba(255,255,255,.65);
+      margin-bottom:10px;
+      transition: color .2s, padding-left .2s;
+    }
+    .footer-col a:hover { color: var(--sky-light); padding-left:4px; }
+    .footer-bottom {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding-top:24px;
+      font-size:.78rem;
+      color: rgba(255,255,255,.4);
+    }
+
+    /* ─── RESPONSIVE: TABLET (max 1024px) ───────────── */
+    @media (max-width: 1024px) {
+      header { padding: 0 24px; height: 70px; }
+      .logo img { height:48px; width:48px; }
+      .logo-text strong { font-size:1rem; }
+      .mobile-menu { top: 70px; }
+      .hero { margin-top: 70px; height: 88vh; }
+      .hero-content { padding: 0 40px; max-width: 100%; }
+      .hero h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); }
+      section { padding: 60px 40px; }
+      .stats   { padding: 32px 40px; }
+      .distributors { padding: 60px 40px; }
+      .contact-strip { padding: 50px 40px; grid-template-columns: 1fr 1fr; gap: 32px; }
+      footer { padding: 50px 40px 28px; }
+      .product-range .inner { grid-template-columns: 1fr; gap: 40px; }
+      .product-visual { grid-template-columns: 1fr 1fr; }
+      .pv-card:first-child { grid-column: 1 / -1; }
+      .why .inner { grid-template-columns: 1fr; gap: 40px; }
+      .why-cards  { grid-template-columns: 1fr 1fr; }
+      .why-badge  { display: none; }
+      .why-img-wrap img { height: 300px; }
+      .why-visual { order: -1; }
+      .featured-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+      .stat-divider { display: none; }
+      .stats { gap: 16px; }
+      .stat-item .number { font-size: 2rem; }
+    }
+
+    /* ─── RESPONSIVE: MOBILE (max 768px) ────────────── */
+    @media (max-width: 768px) {
+      nav.desktop { display: none; }
+      .hamburger  { display: flex; }
+      header { padding: 0 18px; height: 66px; }
+      .logo img { height: 44px; width: 44px; }
+      .logo-text strong { font-size: .95rem; }
+      .mobile-menu { top: 66px; }
+      .hero { margin-top: 66px; height: auto; min-height: 88vh; padding: 60px 0 80px; align-items: center; }
+      .hero-content { padding: 0 20px; max-width: 100%; width: 100%; }
+      .hero h1 { font-size: clamp(2rem, 8vw, 2.8rem); line-height: 1.12; margin-bottom: 16px; }
+      .hero-badge { font-size: .7rem; padding: 6px 14px; margin-bottom: 18px; }
+      .hero-motto { font-size: .68rem; margin-bottom: 20px; }
+      .hero-buttons { flex-direction: column; gap: 12px; width: 100%; }
+      .btn-primary, .btn-secondary { text-align: center; justify-content: center; width: 100%; padding: 14px 24px; font-size: .9rem; }
+      .scroll-cue { display: none; }
+      section { padding: 48px 18px; }
+      .stats { padding: 28px 18px; flex-wrap: wrap; justify-content: center; gap: 20px; }
+      .stat-item { min-width: 80px; }
+      .stat-item .number { font-size: 1.8rem; }
+      .stat-item .label  { font-size: .75rem; }
+      .section-title    { font-size: clamp(1.5rem, 6vw, 2rem); }
+      .section-subtitle { font-size: .92rem; }
+      .product-range .inner { grid-template-columns: 1fr; gap: 32px; }
+      .product-pills { gap: 8px; }
+      .pill { font-size: .82rem; padding: 8px 14px; }
+      .product-visual { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .pv-card { min-height: 120px; }
+      .pv-card:first-child { grid-column: 1 / -1; min-height: 160px; }
+      .pv-emoji { font-size: 2rem; }
+      .featured-grid { grid-template-columns: 1fr; gap: 16px; margin-top: 32px; }
+      .feat-img { height: 150px; font-size: 2.8rem; }
+      .why .inner { grid-template-columns: 1fr; gap: 32px; }
+      .why-visual { order: -1; }
+      .why-img-wrap img { height: 220px; }
+      .why-cards { grid-template-columns: 1fr; gap: 14px; margin-top: 24px !important; }
+      .why-card.wide { grid-column: auto; }
+      .why-card { padding: 20px 16px; }
+      .distributors { padding: 48px 18px; text-align: center; }
+      .brand-logos { gap: 10px; justify-content: center; }
+      .brand-pill { font-size: .85rem; padding: 10px 18px; }
+      .contact-strip { grid-template-columns: 1fr; gap: 24px; padding: 40px 18px; }
+      .c-icon { width: 44px; height: 44px; font-size: 1.1rem; }
+      footer { padding: 40px 18px 24px; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; gap: 6px; text-align: center; font-size: .72rem; }
+      .footer-brand p { font-size: .82rem; }
+    }
+
+    /* ─── RESPONSIVE: SMALL PHONE (max 400px) ───────── */
+    @media (max-width: 400px) {
+      .logo-text { display: none; }
+      .hero h1 { font-size: 1.9rem; }
+      .hero-badge { display: none; }
+      .product-visual { grid-template-columns: 1fr; }
+      .pv-card:first-child { grid-column: auto; }
+      .section-title { font-size: 1.45rem; }
+      .brand-pill { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ HEADER ════════════════════════════════════ -->
+  <header id="header">
+    <div class="logo">
+      <img src="1.jpeg" alt="MAICHICO Logo"/>
+      <div class="logo-text">
+        <strong>MAICHICO</strong>
+        <span>Pharmacy Ltd.</span>
+      </div>
+    </div>
+
+    <nav class="desktop">
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="products.html" class="nav-cta">View Store →</a>
+    </nav>
+
+    <button class="hamburger" id="burger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Mobile drawer -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html"     onclick="closeMenu()">🏠 Home</a>
+    <a href="products.html" onclick="closeMenu()">💊 Products</a>
+    <a href="about.html"      onclick="closeMenu()">ℹ️ About Us</a>
+    <a href="contact.html"  onclick="closeMenu()">📞 Contact</a>
+    <a href="products.html" onclick="closeMenu()" style="color:var(--sky);font-weight:700;">→ View Store</a>
+  </div>
+
+  <!-- ═══ HERO ══════════════════════════════════════ -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Licensed Pharmaceutical Distributors</div>
+    
+      <h1>Welcome to<br/><em>MAICHICO</em><br/>Pharmacy Ltd</h1>
+      <p style="font-size:1rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--gold);">✦ GOD IS GREAT ✦</p>
+      <div class="hero-buttons">
+        <a href="products.html" class="btn-primary">View Our Store ↓</a>
+        <a href="about.html"      class="btn-secondary">About Us</a>
+      </div>
+    </div>
+    <div class="scroll-cue">
+      <div class="arrow"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ═══ STATS ══════════════════════════════════════ -->
+  <div class="stats">
+    <div class="stat-item"><div class="number">500+</div><div class="label">Product Lines</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><div class="number">4+</div><div class="label">Pharma Partners</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><div class="number">100%</div><div class="label">Certified Quality</div></div>
+    <div class="stat-divider"></div>
+    <div class="stat-item"><div class="number">W&R</div><div class="label">Wholesale & Retail</div></div>
+  </div>
+
+  <!-- ═══ PRODUCT RANGE ══════════════════════════════ -->
+  <section class="product-range" id="products">
+    <div class="inner">
+      <div>
+        <span class="section-tag">Our Inventory</span>
+        <h2 class="section-title">Complete Pharmaceutical Product Range</h2>
+        <p class="section-subtitle">We stock a comprehensive selection of pharmaceutical products for both wholesale and retail customers — from everyday tablets to specialised injectables and consumables.</p>
+        <div class="product-pills">
+          <div class="pill"><span class="icon">💊</span> Tablets</div>
+          <div class="pill"><span class="icon">🧴</span> Capsules</div>
+          <div class="pill"><span class="icon">🩸</span> Syrups</div>
+          <div class="pill"><span class="icon">💉</span> Injections</div>
+          <div class="pill"><span class="icon">🩺</span> Consumables</div>
+          <div class="pill"><span class="icon">📦</span> Bulk Orders</div>
+        </div>
+      </div>
+      <div class="product-visual">
+        <div class="pv-card">
+          <img src="5.jpeg" alt="Pharmacy shelves" style="opacity:.85;"/>
+          <div class="pv-label">Our Stock Room</div>
+        </div>
+        <div class="pv-card">
+          <span class="pv-emoji"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDPrhFDedrGn6jSForsNMlhn9PkO08umiC6Q&s" alt=""></span>
+          <span class="pv-text">Injections</span>
+        </div>
+        <div class="pv-card">
+          <span class="pv-emoji"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgjs4dtJidxUYw0sN-MSwrdTWJnubQ5zVVwQ&s" alt=""></span>
+          <span class="pv-text">Tablets & Caps</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FEATURED PRODUCTS ══════════════════════════ -->
+  <section class="featured" id="featured">
+    <div style="text-align:center; margin-bottom:0">
+      <span class="section-tag">Browse</span>
+      <h2 class="section-title">Featured Categories</h2>
+      <p class="section-subtitle" style="margin:0 auto">Trusted, certified pharmaceutical products available wholesale and retail</p>
+    </div>
+    <div class="featured-grid">
+      <div class="feat-card">
+        <div class="feat-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfCHySyo_2Klr1X-FNw4YbA_Gmo4FN0qZ0hg&s" alt=""></div>
+        <div class="feat-body">
+          <h3>Tablets & Capsules</h3>
+          <p>Wide variety of branded and generic oral medications from certified manufacturers.</p>
+        </div>
+        <div class="badge">Popular</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeq7tXHJjSH23ifYJEhAZ_qVpgieeMdXJMWg&s" alt=""></div>
+        <div class="feat-body">
+          <h3>Syrups & Suspensions</h3>
+          <p>Paediatric and adult liquid formulations for a range of conditions.</p>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGwOWk6EW0GTNl0SCuYi62dbFehFLhEHyfkA&s" alt=""></div>
+        <div class="feat-body">
+          <h3>Injections & Infusions</h3>
+          <p>Hospital-grade injectables and IV solutions from trusted supply chains.</p>
+        </div>
+        <div class="badge">In Stock</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-img"><img src="data:image/jpeg;base64,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" alt=""></div>
+        <div class="feat-body">
+          <h3>Medical Consumables</h3>
+          <p>Gloves, syringes, bandages, and other essential healthcare consumables.</p>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-img"><img src="2.jpeg" alt=""></div>
+        <div class="feat-body">
+          <h3>Wholesale Bulk Supply</h3>
+          <p>Competitive bulk pricing for pharmacies, clinics, and healthcare facilities.</p>
+        </div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-img"><img src="data:image/jpeg;base64,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" alt=""></div>
+        <div class="feat-body">
+          <h3>Vitamins & Supplements</h3>
+          <p>Nutritional supplements and vitamins for everyday health and wellbeing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ WHY CHOOSE US ══════════════════════════════ -->
+  <section class="why" id="why">
+    <div class="inner">
+      <div>
+        <span class="section-tag">Why MAICHICO</span>
+        <h2 class="section-title">Trusted by Clinics & Pharmacies Across Nigeria</h2>
+        <p class="section-subtitle">We are major distributors partnering with top pharmaceutical manufacturers to bring quality products to your doorstep.</p>
+        <div class="why-cards" style="margin-top:36px">
+          <div class="why-card">
+            <div class="why-icon">🏭</div>
+            <h4>Direct Distribution</h4>
+            <p>We work directly with manufacturers, cutting out middlemen for better pricing.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon">✅</div>
+            <h4>Certified Quality</h4>
+            <p>All products are from NAFDAC-approved brands and certified supply chains.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon">🚚</div>
+            <h4>Reliable Supply</h4>
+            <p>Consistent stock availability for both retail and wholesale customers.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon">💰</div>
+            <h4>Competitive Pricing</h4>
+            <p>Best market rates for bulk and retail orders across all product lines.</p>
+          </div>
+          <div class="why-card wide">
+            <div class="why-icon">🤝</div>
+            <h4>Long-Term Partnerships</h4>
+            <p>We build lasting relationships with Fidson, Alben, Dele, and Orange Pharmaceuticals — bringing you products you can trust from manufacturers you know.</p>
+          </div>
+        </div>
+      </div>
+      <div class="why-visual">
+        <div class="why-img-wrap">
+          <img src="5.jpeg" alt="MAICHICO Pharmacy Store"/>
+        </div>
+        <div class="why-badge">
+          <span class="big">MPL</span>
+          <span class="small">MAICHICO Pharmacy Ltd</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DISTRIBUTORS ═══════════════════════════════ -->
+  <div class="distributors">
+    <span class="section-tag">Our Partners</span>
+    <h2 class="section-title" style="margin-bottom:14px">Authorized Distributor For</h2>
+    <p class="section-subtitle">We are proud distribution partners of these reputable pharmaceutical companies</p>
+    <div class="brand-logos">
+      <div class="brand-pill">Fidson Healthcare</div>
+      <div class="brand-pill">Alben Pharmaceuticals</div>
+      <div class="brand-pill">Dele Pharmaceuticals</div>
+      <div class="brand-pill">Orange Pharmaceuticals</div>
+    </div>
+  </div>
+
+  <!-- ═══ CONTACT STRIP ══════════════════════════════ -->
+  <div class="contact-strip" id="contact">
+    <div class="contact-item">
+      <div class="c-icon">📍</div>
+      <div class="c-text">
+        <strong>Visit Us</strong>
+        <span>MAICHICO Pharmacy Ltd, <br>
+            Hajiya Halima Estate,Opposite Main Market Gate Sokoto State.<br/>Nigeria.</span>
+      </div>
+    </div>
+    <div class="contact-item">
+      <div class="c-icon">📞</div>
+      <div class="c-text">
+        <strong>Call Us @ +2348035073440</strong>
+        <span>Available during<br/>business hours</span>
+      </div>
+    </div>
+    <div class="contact-item">
+      <div class="c-icon">🕐</div>
+      <div class="c-text">
+        <strong>Opening Hours</strong>
+        <span>Mon – Sat: 8am – 7pm<br/>Sunday: 10am – 4pm</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ FOOTER ══════════════════════════════════════ -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">
+          <img src="1.jpeg" alt="Logo" style="height:50px;width:50px;border-color:var(--sky-light)"/>
+          <div class="logo-text">
+            <strong>MAICHICO</strong>
+            <span>Pharmacy Ltd.</span>
+          </div>
+        </div>
+        <p>Your trusted pharmaceutical partner for wholesale and retail distribution across Nigeria. Quality products, reliable service, God is Great.</p>
+        <div class="footer-motto">✦ MOTTO: GOD IS GREAT ✦</div>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <a href="home.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h5>Products</h5>
+        <a href="#products">Tablets & Capsules</a>
+        <a href="#products">Syrups</a>
+        <a href="#products">Injections</a>
+        <a href="#products">Consumables</a>
+        <a href="#products">Wholesale</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 MAICHICO Pharmacy Ltd. All rights reserved.</span>
+      <span>⚕️ Your Health, Our Priority</span>
+    </div>
+  </footer>
+
+  <script>
+    const burger = document.getElementById('burger');
+    const menu   = document.getElementById('mobileMenu');
+
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('open');
+      menu.classList.toggle('open');
+    });
+
+    function closeMenu() {
+      burger.classList.remove('open');
+      menu.classList.remove('open');
+    }
+
+    // Sticky header shadow on scroll
+    window.addEventListener('scroll', () => {
+      const h = document.getElementById('header');
+      h.style.boxShadow = window.scrollY > 30
+        ? '0 4px 30px rgba(14,165,233,.18)'
+        : '0 2px 20px rgba(14,165,233,.10)';
+    });
+
+    // Animate sections on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.feat-card, .why-card, .pv-card, .stat-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity .6s ease, transform .6s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
